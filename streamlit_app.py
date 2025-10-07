@@ -5,6 +5,7 @@ import json
 from typing import Optional
 import time
 import re
+import os
 
 from logs import logger
 
@@ -12,8 +13,7 @@ logger.setLevel("INFO")
 from datamodels import ResponseItem
 
 # API Configuration
-# API_URL = "https://readily-494772444195.europe-west1.run.app/audit"
-API_URL = "http://127.0.0.1:8080"
+API_URL = os.environ.get("API_URL")
 
 
 def extract_text_from_pdf(pdf_file) -> str:
@@ -178,6 +178,9 @@ def main():
                                     with st.expander(
                                         f"Question {i}: {res.get('requirement', '')[:100]}..."
                                     ):
+                                        st.markdown(
+                                            f"**📝 Requirement:** {res.get('requirement', '—')}"
+                                        )
                                         st.markdown(
                                             f"**✅ Requirement Met:** {'Yes' if res.get('is_met') else 'No'}"
                                         )
